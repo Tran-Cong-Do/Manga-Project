@@ -1,0 +1,6 @@
+<svg id="Icon_notification" xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 34 34">
+  <g id="Icon_notification-2" data-name="Icon_notification" transform="translate(4 3)">
+    <path id="Path" d="M13,0A3.292,3.292,0,0,0,9.75,3.333V3.9a9.991,9.991,0,0,0-6.5,9.431v8.333H1.625a1.667,1.667,0,0,0,0,3.333h22.75a1.667,1.667,0,0,0,0-3.333H22.75V13.333A9.991,9.991,0,0,0,16.25,3.9V3.333A3.292,3.292,0,0,0,13,0Z" fill="#ff631c"/>
+    <path id="Path-2" data-name="Path" d="M2,2A2,2,0,0,1,0,0H4A2,2,0,0,1,2,2Z" transform="translate(11 26)" fill="#ff631c"/>
+  </g>
+</svg>
