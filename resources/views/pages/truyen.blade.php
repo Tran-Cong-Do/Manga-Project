@@ -190,74 +190,6 @@
 </div>
 
 <style type="text/css">
-  .tagcloud05 ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-  .tagcloud05 ul li {
-    display: inline-block;
-    margin: 0 0 .3em 1em;
-    padding: 0;
-  }
-  .tagcloud05 ul li a {
-    position: relative;
-    display: inline-block;
-    height: 30px;
-    line-height: 30px;
-    padding: 0 1em;
-    background-color: #3498db;
-    border-radius: 0 3px 3px 0;
-    color: #fff;
-    font-size: 13px;
-    text-decoration: none;
-    -webkit-transition: .2s;
-    transition: .2s;
-  }
-  .tagcloud05 ul li a::before {
-    position: absolute;
-    top: 0;
-    left: -15px;
-    content: '';
-    width: 0;
-    height: 0;
-    border-color: transparent #3498db transparent transparent;
-    border-style: solid;
-    border-width: 15px 15px 15px 0;
-    -webkit-transition: .2s;
-    transition: .2s;
-  }
-  .tagcloud05 ul li a::after {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    z-index: 2;
-    display: block;
-    content: '';
-    width: 6px;
-    height: 6px;
-    margin-top: -3px;
-    background-color: #fff;
-    border-radius: 100%;
-  }
-  .tagcloud05 ul li span {
-    display: block;
-    max-width: 100px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-  }
-  .tagcloud05 ul li a:hover {
-    background-color: #555;
-    color: #fff;
-  }
-  .tagcloud05 ul li a:hover::before {
-    border-right-color: #555;
-  }
-
-</style>
-
-<style type="text/css">
  	tr td{
  		border-bottom: 1px solid #D3D3D3; 
  		padding: 8px;
@@ -272,22 +204,6 @@
      text-decoration: none;
    }
 </style>
-
-<p>Thẻ Tag:
-  @php
-    $tukhoa = explode(",", $truyen->tukhoa);
-    $the_tag = $truyen->tukhoa;
-  @endphp
-  @if ($the_tag)
-  <div class="tagcloud05">
-    <ul>
-      @foreach ($tukhoa as $key => $tu )
-      <li><a href="{{url('tag/'.\Str::slug($tu))}}"><span>{{$tu}}</span></a></li>
-      @endforeach     
-    </ul>
-  </div> 
-  @endif 
-</p>
 
  
 <div>

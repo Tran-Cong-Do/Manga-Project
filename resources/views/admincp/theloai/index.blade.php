@@ -56,7 +56,7 @@
                         <tbody>
                         @foreach($theloai as $key => $theloai)
                             <tr>
-                                <th scope="row">{{$key+1}}</th>
+                                <th scope="row">{{$key}}</th>
                                 <td>{{$theloai->tentheloai}}</td>
                                 <td>{{$theloai->slug_theloai}}</td>
                                 <td style="width: 25%"><p class="resomer">{{$theloai->mota}}</p></td>

@@ -47,7 +47,7 @@
                          
                         @foreach($comment as $key => $com)
                             <tr>
-                                <th scope="row">{{$key+1}}</th>                              
+                                <th scope="row">{{$key}}</th>                              
                                 <th scope="row">{{$com->comment->user->name}}</th>  
                                 <th scope="row">{{$com->comment->truyen->tentruyen}}</th>     
                                 <th scope="row">{{$com->comment->body}}</th> 

@@ -2,8 +2,6 @@
 
 @section('content')
 @include('layouts.nav')
-
-
 <div class="container-fluid mt-2" style="margin-left: 120px">
     <div class="row justify-content-center">
         <div class="col-md-10">
@@ -48,7 +46,7 @@
 
                     <div class="form-group">
                         <label for="exampleInputEmail1">Url danh mục</label>
-                        <input readonly="readonly" type="text" class="form-control"  value="{{old('slug_danhmuc')}}" name="slug_danhmuc" id="convert_slug" placeholder="Tên slug danh mục...">
+                        <input  readonly="readonly" type="text" class="form-control"  value="{{old('slug_danhmuc')}}" name="slug_danhmuc" id="convert_slug" placeholder="Tên slug danh mục...">
                     </div>
 
                     <div class="form-group">

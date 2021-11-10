@@ -20,7 +20,7 @@ class Truyen extends Model implements Viewable
         'tentruyen', 'tomtat', 'kichhoat', 'slug_truyen',
         'hinhanh', 'danhmuc_id', 'tacgia', 'tinhtrang',
         'thongbao', 'theloai_id', 'truyen_noibat', 
-        'created_at','updated_at', 'user_id','tukhoa'
+        'created_at','updated_at', 'user_id'
     ];
     protected $primaryKey = 'id';
     protected $table = 'truyen';

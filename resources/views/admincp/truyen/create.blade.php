@@ -119,9 +119,22 @@
 </style>
 <div class="container-fluid mt-2" style="margin-left: 120px">
     <div class="row justify-content-center">
-        <div class="col-md-10">
+    <div class="col-md-10" style="margin-top: 20px">
+
+    <style>
+        .breadcrumb{
+            background: white;
+        }
+    </style>
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb shadow-sm" style="border: 1px solid rgba(0,0,0,.125);">
+            <li class="breadcrumb-item"><a href="{{route('truyen.index')}}">Danh sách truyện</a></li>
+            <li class="breadcrumb-item" aria-current="page">Thêm mới truyện</li>
+        </ol>
+    </nav>
             <div class="card">
-                <div class="card-header">Thêm truyện</div>
+                <div class="card-header shadow-sm" style="background: white; font-size: 18px">Thêm truyện</div>
 
                 @if ($errors->any())
                     <div class="alert  alert-dismissable alert-danger" role="alert">

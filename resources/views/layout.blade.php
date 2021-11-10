@@ -336,9 +336,7 @@ left: auto;
 }
 </style>
 
-
 <div class="container mt-2">
-
   
 
 
@@ -352,6 +350,8 @@ left: auto;
 
    @yield('content')
 		<!-- Dãy ngăn cách 2 cột -->
+
+   
 
 	<div class="container p-0">
 	<!-- ---Truyện đề xuất--- -->

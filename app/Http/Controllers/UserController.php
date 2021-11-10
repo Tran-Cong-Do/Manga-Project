@@ -16,6 +16,14 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function kytuUser(request $request, $kytuUser) {
+        
+        // $user = User::with('roles','permissions')->paginate(8);
+        $user = User::with('roles','permissions')->where('name', 'LIKE',$kytuUser.'%')->orderBy('id', 'DESC')->paginate(8);
+        return view('pages.kytuUser')->with(compact('user'));   
+    }
+
     public function index()
     {
         //Tạo vai trò và quyền

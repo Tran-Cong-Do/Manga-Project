@@ -28,9 +28,24 @@
 </style>
 <div class="container-fluid mt-2" style="margin-left: 120px">
     <div class="row justify-content-center">
-        <div class="col-md-10">
+        <div class="col-md-10" style="margin-top: 20px">
+
+        <style>
+                .breadcrumb{
+                    background: white;
+                }
+            </style>
+
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb shadow-sm" style="border: 1px solid rgba(0,0,0,.125);">
+                    <li class="breadcrumb-item"><a href="{{route('truyen.index')}}">Danh sách truyện</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('xem-truyen/'.$truyen->slug_truyen)}}">{{$truyen->tentruyen}}</a></li>
+                    <li class="breadcrumb-item" aria-current="page">Update truyện</li>
+                </ol>
+            </nav>
+
             <div class="card">
-                <div class="card-header">Cập nhật truyện</div>
+            <div class="card-header shadow-sm" style="background: white; font-size: 18px">Cập nhật truyện</div>
 
                 @if ($errors->any())
                     <div class="alert  alert-dismissable alert-danger" role="alert">
@@ -84,7 +99,7 @@
                         <textarea name="tomtat" class="form-control" rows="5" style="resize: none;">{{$truyen->tomtat}}</textarea>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" style="display: none">
                         <label for="exampleInputEmail1">Danh mục truyện</label>
                         <select name="danhmuc" class="custom-select">
                             @foreach($danhmuc as $key => $muc)                          

@@ -21,6 +21,7 @@ class TruyenController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // Hàm ký tự
     public function __construct()
     {
         $this->middleware('permission:edit story|delete story|add story',['only' => ['index','show']]);
@@ -68,7 +69,6 @@ class TruyenController extends Controller
             [
             'tentruyen' => 'required|unique:truyen|max:50', 
             'slug_truyen' => 'required|unique:truyen|max:50', 
-            'tukhoa' => 'max:50',
             'hinhanh' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048|dimensions:min_width=100,min_height=100,max_width=1000,max_height=1000',
             'tomtat' => 'required',
             'kichhoat' => 'required', 
@@ -81,7 +81,6 @@ class TruyenController extends Controller
             ],
             [
                 'tentruyen.unique' => 'Tên truyện đã có, hãy điền tên khác',
-                'tukhoa.max' => 'Từ khóa chỉ giới hạn đc 50 ký tự',
                 'slug_truyen.unique' => 'Slug truyện đã có, hãy điền slug khác',
                 'slug_truyen.required' => 'Phải có slug truyện',
                 'tentruyen.required' => 'Phải nhập tên truyện', 
@@ -92,12 +91,10 @@ class TruyenController extends Controller
                 'slug_truyen.max' => 'Tên truyện không được dài quá 50 ký tự', 
             ]
         );
-
         $truyen = new Truyen();
         $truyen->tentruyen = $data['tentruyen'];
         $truyen->slug_truyen = $data['slug_truyen'];
         $truyen->tomtat = $data['tomtat'];
-        $truyen->tukhoa =  $data['tukhoa'];
         $truyen->kichhoat = $data['kichhoat'];
         $truyen->danhmuc_id = $data['danhmuc'];
         $truyen->user_id = auth()->user()->id;
@@ -178,7 +175,6 @@ class TruyenController extends Controller
             [
             'tentruyen' => 'required|max:50', 
             'slug_truyen' => 'required|max:50', 
-            'tukhoa' => 'max:50',
             'tomtat' => 'required',
             'kichhoat' => 'required', 
             'danhmuc' => 'required',
@@ -191,7 +187,8 @@ class TruyenController extends Controller
             [    
                 'slug_truyen.required' => 'Phải có slug truyện',
                 'tentruyen.required' => 'Phải nhập tên truyện', 
-                'tukhoa.max' => 'Từ khóa chỉ giới hạn đc 50 ký tự',
+                'slug_truyen.unique' => 'Slug truyện này có đã có rồi',
+                'tentruyen.unique' => 'Tên truyện này đã có rồi', 
                 'tomtat.required' => 'Phải nhập tóm tắt', 
                 'tacgia.required' => 'Phải nhập tên tác giả', 
                 'tentruyen.max' => 'Tên truyện không được dài quá 50 ký tự',
@@ -205,7 +202,6 @@ class TruyenController extends Controller
         $truyen->tentruyen = $data['tentruyen'];
         $truyen->slug_truyen = $data['slug_truyen'];
         $truyen->tomtat = $data['tomtat'];
-        $truyen->tukhoa =  $data['tukhoa'];
         $truyen->kichhoat = $data['kichhoat'];
         $truyen->danhmuc_id = $data['danhmuc'];
         $truyen->tacgia = $data['tacgia'];
@@ -322,5 +318,26 @@ class TruyenController extends Controller
             $output .= '</div>';
             echo $output;
         }
+    }
+
+    public function kytu(Request $request, $kytu){
+
+        $danhmuc = DanhmucTruyen::orderBy('id','ASC')->get();
+        $theloai = Theloai::orderBy('id','DESC')->get();
+        $slide_truyen = Truyen::orderBy('id','ASC')->where('kichhoat',0)->take(8)->get();
+
+        $notification = Chapter::with('truyen')->orderBy('created_at','DESC')->take(6)->get();
+      
+        $truyen = Truyen::with('thuocnhieutheloaitruyen')->where('tentruyen','LIKE',$kytu.'%')->orderBy('id','DESC')->where('kichhoat', 0)->paginate(10);
+        $truyentopngay = Truyen::where('truyen_noibat',1)->take(3)->get();
+        $truyentoptuan = Truyen::where('truyen_noibat',2)->take(3)->get();
+        $truyentopthang = Truyen::where('truyen_noibat',3)->take(3)->get();
+      
+        $chuong_moinhat = Truyen::with('thuocnhieutheloaitruyen')->orderBy('updated_at','DESC')->where('kichhoat', 0)->paginate(10);
+       
+        $dexuat_truyen = Truyen::orderBy('id','DESC')->where('kichhoat',0)->take(3)->get();
+        $dexuat_theloai = Theloai::orderBy('id','DESC')->take(4)->get();
+        
+        return view('pages.kytu')->with(compact('danhmuc','truyen','theloai','slide_truyen','dexuat_truyen','dexuat_theloai','chuong_moinhat', 'truyentopngay','truyentoptuan','truyentopthang','notification'));
     }
 }

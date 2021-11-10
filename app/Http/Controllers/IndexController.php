@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Chapter;
 use App\Models\ChapterTranh;
 use Illuminate\Http\Request;
@@ -10,7 +11,6 @@ use App\Models\Truyen;
 use App\Models\Rating;
 use App\Models\User;
 use CyrildeWit\EloquentViewable\Contracts\Views;
-use Symfony\Polyfill\Intl\Idn\Info;
 
 class IndexController extends Controller
 {
@@ -18,7 +18,10 @@ class IndexController extends Controller
     // {
     //     $this->middleware('auth');
     // }
+
+
     public function home(){
+
         $danhmuc = DanhmucTruyen::orderBy('id','ASC')->get();
         $theloai = Theloai::orderBy('id','DESC')->get();
         $slide_truyen = Truyen::orderBy('id','ASC')->where('kichhoat',0)->take(8)->get();
@@ -208,35 +211,6 @@ class IndexController extends Controller
         }
     }
 
-    public function tag($tag){
-       
-        $notification = Chapter::with('truyen')->orderBy('created_at','DESC')->take(6)->get();
-        $theloai = Theloai::orderBy('id','DESC')->get();
-        $danhmuc = DanhmucTruyen::orderBy('id','DESC')->get();
-        $dexuat_truyen = Truyen::orderBy('id','DESC')->where('kichhoat',0)->take(3)->get();
-        $dexuat_theloai = Theloai::orderBy('id','DESC')->take(4)->get();
-
-        $title = 'Tìm kiếm tags';
-        $meta_desc = 'Tìm kiếm tags';
-        $meta_keywords = 'Tìm kiếm tags';
-
-        $slide_truyen = Truyen::with('thuocnhieutheloaitruyen')->orderBy('id','DESC')->where('kichhoat',0)->take(8)->get();
-        
-        $theloai = Theloai::orderBy('id','DESC')->get();
-        $danhmuc = DanhmucTruyen::orderBy('id','DESC')->get();
-        $tags = explode('-', $tag);
-        $truyen = Truyen::with('thuocnhieutheloaitruyen')->where(
-            function ($query) use($tags) {
-                for ($i = 0; $i < count($tags); $i++){
-                    $query->orwhere('tukhoa','LIKE', '%' . $tags[$i] . '%');
-                }
-
-            })->paginate(12);
-        return view('pages.tag')->with(compact('danhmuc','truyen','theloai','slide_truyen','tag','title','meta_desc','meta_keywords','notification','danhmuc','theloai','dexuat_truyen','dexuat_theloai'
-    ));
-
-    }
-
     public function userProfile($id){
         $theloai = Theloai::orderBy('id','DESC')->get();
         $danhmuc = DanhmucTruyen::orderBy('id','DESC')->get();
@@ -317,4 +291,5 @@ class IndexController extends Controller
       echo $output;
      }
     }
+
 }

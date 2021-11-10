@@ -2,7 +2,6 @@
 
 @section('content')
 @include('layouts.nav')
-
 <style>
     .resomer{
           width: 100%;
@@ -15,7 +14,6 @@
     -webkit-box-orient: vertical;
         }
 </style>
-
 <div class="container-fluid mt-2" style="margin-left: 120px">
     <div class="row justify-content-center">
         <div class="col-md-10">
@@ -44,11 +42,9 @@
                     <a href="{{route('truyen.create')}}" class="btn btn-success float-right mr-2 mb-2">Thêm truyện</a>
                  </div>
                  <div style="clear: both;"></div>
-                
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                
                                 <th scope="col">#</th>                              
                                 <th scope="col">Tên truyện</th>                             
                                
@@ -59,7 +55,7 @@
                         <tbody>
                         @foreach($list_truyen as $key => $truyen)
                             <tr>
-                                <th scope="row"><input type="checkbox" class="selectbox">{{$key+1}}</th>                              
+                                <th scope="row">{{$key}}</th>                              
                                 <td><a href="{{url('xem-chapter/'.$truyen->slug_chapter)}}">{{$truyen->tentruyen}}</a></td>
             
                                 <td>                             
@@ -73,14 +69,8 @@
                             </tr>
                         @endforeach    
                         </tbody>
-
-                       
                     </table>
-              
-                    
                 </div>
-               
-                      
             </div>
         </div>
     </div>

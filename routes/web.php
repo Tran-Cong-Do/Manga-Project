@@ -13,8 +13,6 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ReportCommentController;
 use App\Http\Controllers\ReportErrorController;
 use App\Http\Controllers\ReportErrorTranhController;
-
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -42,18 +40,15 @@ Route::get('/xem-chapter/{slug_truyen}/{slug}', [IndexController::class, 'xemcha
 Route::get('/user-profile/{id}', [IndexController::class, 'userProfile']);
 
 Route::get('/user-settings/{id}', [IndexController::class, 'userSettings']);
-Route::get('/tag/{tag}', [IndexController::class, 'tag']);
 
 Route::post('/tim-kiem', [IndexController::class, 'timkiem']);
 Route::post('/timkiem-ajax', [IndexController::class, 'timkiem_ajax']);
-
 
 Route::post('/tim-kiem-admin', [TruyenController::class, 'timkiem']);
 Route::post('/timkiem-ajax-admin', [TruyenController::class, 'timkiem_ajax']);
 
 Route::post('/tim-kiem-user-admin', [UserController::class, 'timkiem']);
 Route::post('/timkiemuser-ajax-admin', [UserController::class, 'timkiem_ajax']);
-
 
 // Route::get('/loadmore', [IndexController::class]);
 // Route::post('/loadmore/load_data/{slug}', [IndexController::class, 'load_data'])->name('loadmore.load_data');
@@ -114,7 +109,7 @@ Route::get('/manage-report-error-tranh', [ReportErrorTranhController::class, 'in
 Route::delete('/delete-report-error-tranh/{id}', [ReportErrorTranhController::class, 'destroy'])->name("reporterrortranh.destroy");
 //Truyện
 Route::post('/truyennoibat', [TruyenController::class, 'truyennoibat']);
-
+Route::get('truyen/kytu/{kytu}', [TruyenController::class,'kytu']);
 //Rating
 Route::post('/insert-rating', [TruyenController::class, 'insert_rating']);
 
@@ -124,3 +119,5 @@ Route::post('/upload-image-user/{id}', [UserController::class, 'update'])->name(
 //cài đặt user
 Route::post('/setting-user/{id}', [UserController::class, 'settings'])->name("user.settings");
 Route::post('/change-password/{id}', [UserController::class, 'change_password'])->name("user.change_password");
+Route::get('user/kytu/{kytu}', [UserController::class, 'kytuUser']);
+

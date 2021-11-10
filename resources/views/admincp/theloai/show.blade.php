@@ -55,7 +55,7 @@
                         <tbody>
                         @foreach($list_truyen as $key => $truyen)
                             <tr>
-                                <th scope="row">{{$key+1}}</th>                              
+                                <th scope="row">{{$key}}</th>                              
                                 <td><a href="{{url('xem-chapter/'.$truyen->slug_chapter)}}">{{$truyen->tentruyen}}</a></td>
             
                                 <td> 
