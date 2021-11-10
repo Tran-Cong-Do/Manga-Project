@@ -13,6 +13,8 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ReportCommentController;
 use App\Http\Controllers\ReportErrorController;
 use App\Http\Controllers\ReportErrorTranhController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -40,15 +42,18 @@ Route::get('/xem-chapter/{slug_truyen}/{slug}', [IndexController::class, 'xemcha
 Route::get('/user-profile/{id}', [IndexController::class, 'userProfile']);
 
 Route::get('/user-settings/{id}', [IndexController::class, 'userSettings']);
+Route::get('/tag/{tag}', [IndexController::class, 'tag']);
 
 Route::post('/tim-kiem', [IndexController::class, 'timkiem']);
 Route::post('/timkiem-ajax', [IndexController::class, 'timkiem_ajax']);
+
 
 Route::post('/tim-kiem-admin', [TruyenController::class, 'timkiem']);
 Route::post('/timkiem-ajax-admin', [TruyenController::class, 'timkiem_ajax']);
 
 Route::post('/tim-kiem-user-admin', [UserController::class, 'timkiem']);
 Route::post('/timkiemuser-ajax-admin', [UserController::class, 'timkiem_ajax']);
+
 
 // Route::get('/loadmore', [IndexController::class]);
 // Route::post('/loadmore/load_data/{slug}', [IndexController::class, 'load_data'])->name('loadmore.load_data');

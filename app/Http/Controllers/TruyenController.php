@@ -68,6 +68,7 @@ class TruyenController extends Controller
             [
             'tentruyen' => 'required|unique:truyen|max:50', 
             'slug_truyen' => 'required|unique:truyen|max:50', 
+            'tukhoa' => 'max:50',
             'hinhanh' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048|dimensions:min_width=100,min_height=100,max_width=1000,max_height=1000',
             'tomtat' => 'required',
             'kichhoat' => 'required', 
@@ -80,6 +81,7 @@ class TruyenController extends Controller
             ],
             [
                 'tentruyen.unique' => 'Tên truyện đã có, hãy điền tên khác',
+                'tukhoa.max' => 'Từ khóa chỉ giới hạn đc 50 ký tự',
                 'slug_truyen.unique' => 'Slug truyện đã có, hãy điền slug khác',
                 'slug_truyen.required' => 'Phải có slug truyện',
                 'tentruyen.required' => 'Phải nhập tên truyện', 
@@ -90,10 +92,12 @@ class TruyenController extends Controller
                 'slug_truyen.max' => 'Tên truyện không được dài quá 50 ký tự', 
             ]
         );
+
         $truyen = new Truyen();
         $truyen->tentruyen = $data['tentruyen'];
         $truyen->slug_truyen = $data['slug_truyen'];
         $truyen->tomtat = $data['tomtat'];
+        $truyen->tukhoa =  $data['tukhoa'];
         $truyen->kichhoat = $data['kichhoat'];
         $truyen->danhmuc_id = $data['danhmuc'];
         $truyen->user_id = auth()->user()->id;
@@ -174,6 +178,7 @@ class TruyenController extends Controller
             [
             'tentruyen' => 'required|max:50', 
             'slug_truyen' => 'required|max:50', 
+            'tukhoa' => 'max:50',
             'tomtat' => 'required',
             'kichhoat' => 'required', 
             'danhmuc' => 'required',
@@ -186,8 +191,7 @@ class TruyenController extends Controller
             [    
                 'slug_truyen.required' => 'Phải có slug truyện',
                 'tentruyen.required' => 'Phải nhập tên truyện', 
-                'slug_truyen.unique' => 'Slug truyện này có đã có rồi',
-                'tentruyen.unique' => 'Tên truyện này đã có rồi', 
+                'tukhoa.max' => 'Từ khóa chỉ giới hạn đc 50 ký tự',
                 'tomtat.required' => 'Phải nhập tóm tắt', 
                 'tacgia.required' => 'Phải nhập tên tác giả', 
                 'tentruyen.max' => 'Tên truyện không được dài quá 50 ký tự',
@@ -201,6 +205,7 @@ class TruyenController extends Controller
         $truyen->tentruyen = $data['tentruyen'];
         $truyen->slug_truyen = $data['slug_truyen'];
         $truyen->tomtat = $data['tomtat'];
+        $truyen->tukhoa =  $data['tukhoa'];
         $truyen->kichhoat = $data['kichhoat'];
         $truyen->danhmuc_id = $data['danhmuc'];
         $truyen->tacgia = $data['tacgia'];

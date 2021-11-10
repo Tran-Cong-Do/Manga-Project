@@ -8,13 +8,13 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb shadow-sm">
     <li class="breadcrumb-item"><a href="{{url('/')}}">Trang chủ</a></li>
-    <li class="breadcrumb-item" aria-current="page">Thẻ tag</li>
+    <li class="breadcrumb-item" aria-current="page">Tìm kiếm</li>
   </ol>
 </nav>
 
 	<div class="row p-0">
 		<div class="col-8 m-0">
-            <p class="mt-4 m-0 text-center" style="font-size: 145%;">Bạn tìm kiếm truyện với thẻ tag là : <b class="ml-1">{{$tag}}</b></p>
+            <p class="mt-4 m-0 text-center" style="font-size: 145%;">Bạn tìm kiếm truyện với từ khóa là : <b class="ml-1">{{$tag}}</b></p>
         
 <style type="text/css">
 .btn1 {
