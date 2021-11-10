@@ -45,7 +45,7 @@
 
                     <div class="form-group">
                         <label for="exampleInputEmail1">Url Thể loại</label>
-                        <input  readonly="readonly" type="text" class="form-control"  value="{{old('slug_theloai')}}" name="slug_theloai" id="convert_slug" placeholder="Slug thể loại...">
+                        <input readonly="readonly" type="text" class="form-control"  value="{{old('slug_theloai')}}" name="slug_theloai" id="convert_slug" placeholder="Slug thể loại...">
                     </div>
 
                     <div class="form-group">

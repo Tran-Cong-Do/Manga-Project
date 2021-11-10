@@ -2,6 +2,7 @@
 
 @section('content')
 @include('layouts.nav')
+
 <div class="container-fluid mt-2" style="margin-left: 120px">
     <div class="row justify-content-center">
         <div class="col-md-10">

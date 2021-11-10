@@ -49,7 +49,7 @@
                         <tbody>
                         @foreach($chapter as $key => $chap)
                             <tr>
-                                <th scope="row">{{$key}}</th>                              
+                                <th scope="row">{{$key+1}}</th>                              
                                 <td><a href="{{url('xem-chapter/'.$chap->slug_chapter)}}">{{$chap->tieude}}</a></td>
                                 <td>{{$chap->slug_chapter}}</td>
                                 <td><img src="{{asset('public/uploads/truyen/'.$chap->truyen->hinhanh)}}" height="120" width="80" alt=""></td>

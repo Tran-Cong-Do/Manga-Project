@@ -16,7 +16,7 @@
 </style>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>  
 <script>   
-   $(document).ready(function(){
+    $(document).ready(function(){
       $(".all").click(function(){
         $("#tbl_all").fadeIn(0.5);
         $("#header_all").fadeIn(0.5);
@@ -62,7 +62,7 @@
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card">
-                <div class="card-header">Danh sách User</div>
+                <div class="card-header">Liệt kê User</div>
 
                 <li class="mr-3" style="list-style-type: none">
                     <h5 class="ml-4 mt-2 mb-2">Tìm kiếm user</h5>
@@ -158,7 +158,7 @@
                         </tbody>
                        
                     </table>
-                    <div style="margin: 0 auto">  
+                    <div id="pagination_user" style="margin: 0 auto">  
                                     {{$user->onEachSide(1)->links('pagination::bootstrap-4')}} 
                     </div>
 
@@ -225,9 +225,13 @@
                         @endforeach   
                         </tbody>
                     </table>
-                    <div id="pagination_admin" style="margin: 0 auto">  
-                                    {{$admin->onEachSide(1)->links('pagination::bootstrap-4')}} 
-                    </div>
+
+                    <div id="pagination_admin" style="margin: 0 auto; display: none">  
+                        {{$admin->onEachSide(1)->links('pagination::bootstrap-4')}} 
+                     </div>
+
+                  
+                    
 
                     <!-- Table Uploader -->
 
@@ -294,12 +298,14 @@
                            
                             </tr>
                         @endforeach   
-                        {{$uploader->onEachSide(1)->links('pagination::bootstrap-4')}}
+                       
                         </tbody>
                     </table>
-                    <div id="pagination_uploader" style="margin: 0 auto">  
-                                    {{$uploader->onEachSide(1)->links('pagination::bootstrap-4')}} 
-                    </div>
+
+                    <div id="pagination_uploader" style="margin: 0 auto; display: none">  
+                        {{$uploader->onEachSide(1)->links('pagination::bootstrap-4')}} 
+                     </div>
+                   
 
                 </div>
             </div>

@@ -33,7 +33,7 @@
 
                     @role('admin') 
                         @php 
-                            $count_reportError = count($reportErrors);
+                            $count_reportError = count($reportErr);
                         @endphp
                     
                     <button type="button" class="btn btn-success mb-3">
@@ -54,29 +54,31 @@
                        
                         <tbody>
                                 
-                        @foreach($reportErrors as $key => $reportError)
+                        @foreach($reportErr as $key => $reportError)
                             <tr>
                                 <th scope="row">{{$key+1}}</th>    
                                 <th scope="row">{{$reportError->user->name}}</th>                                
                                 <th scope="row">
                                     @if($reportError->chonloi==0)
-                                        <span class="text text-danger">Chapter không thấy chữ hoặc ảnh</span>
+                                        <span class="text text-danger">Truyện chứa nội dung bạo hành</span>
                                     @elseif($reportError->chonloi==1)    
-                                    <span class="text text-danger">Chapter bị trùng</span>
+                                    <span class="text text-danger">Truyện chứa nội dung 18+</span>
                                     @elseif($reportError->chonloi==2)    
-                                    <span class="text text-danger">Chapter chưa dịch</span>
+                                    <span class="text text-danger">Truyện có nội dung lừa đảo</span>
                                     @elseif($reportError->chonloi==3)    
-                                    <span class="text text-danger">Up sai truyện</span>
+                                    <span class="text text-danger">Truyện có nội dung chống đối</span>
                                     @else
                                         <span class="text text-danger">Lỗi khác</span>
                                     @endif   
                                 </th>  
                                 <th scope="row">{{$reportError->noidung}}</th>
 
-                                <th scope="row"><a href="{{url('xem-chapter/'.$reportError->chapter->slug_chapter)}}">{{$reportError->chapter->truyen->tentruyen}}</a></th>
+                                
+
+                                <th scope="row"><a href="{{url('xem-chapter/'.$reportError->chapter->truyen->slug_truyen.'/'.$reportError->chapter->slug_chapter)}}">{{$reportError->chapter->truyen->tentruyen}}</a></th>
 
                                 <th scope="row">
-                                    <form action="{{route('reporterror.destroy',[ $reportError -> id])}}" method="POST">
+                                    <form action="{{route('report.destroy',[ $reportError -> id])}}" method="POST">
                                         @method('DELETE')
                                         @csrf
                                         <button onclick="return confirm('Bạn có chắc muốn xóa thông báo này không?')" class="btn btn-danger"><i class="fas fa-trash"></i></button>

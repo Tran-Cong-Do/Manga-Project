@@ -56,7 +56,7 @@
                         <tbody>
                         @foreach($danhmuctruyen as $key => $danhmuc)
                             <tr>
-                                <th scope="row">{{$key}}</th>
+                                <th scope="row">{{$key+1}}</th>
                                 <td>{{$danhmuc->tendanhmuc}}</td>
                                 <td>{{$danhmuc->slug_danhmuc}}</td>
                                 <td style="width: 25%"><p class="resomer">{{$danhmuc->mota}}</p></td>

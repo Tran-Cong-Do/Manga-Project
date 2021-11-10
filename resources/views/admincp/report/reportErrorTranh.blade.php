@@ -56,7 +56,7 @@
                                 
                         @foreach($reportErrors as $key => $reportError)
                             <tr>
-                                <th scope="row">{{$key}}</th>    
+                                <th scope="row">{{$key+1}}</th>    
                                 <th scope="row">{{$reportError->user->name}}</th>                                
                                 <th scope="row">
                                     @if($reportError->chonloi==0)
@@ -73,7 +73,7 @@
                                 </th>  
                                 <th scope="row">{{$reportError->noidung}}</th>
 
-                                <th scope="row"><a href="{{url('xem-chaptertranh/'.$reportError->chaptertranh->truyen->slug_truyen.'/'.$reportError->chaptertranh->slug_chaptertranh)}}">{{$reportError->chaptertranh->truyen->tentruyen}}</a></th>
+                                <th scope="row"><a href="{{url('xem-chaptertranh/'.$reportError->chaptertranh->slug_chaptertranh)}}">{{$reportError->chaptertranh->truyen->tentruyen}}</a></th>
 
                                 <th scope="row">
                                     <form action="{{route('reporterrortranh.destroy',[ $reportError -> id])}}" method="POST">
