@@ -16,12 +16,21 @@
 </style>
 <div class="container-fluid mt-2" style="margin-left: 120px">
     <div class="row justify-content-center">
-        <div class="col-md-10">
-            <div class="card">
-                <div class="card-header">Liệt kê bình luận bị báo cáo</div>
-               
+        <div class="col-md-10" style="margin-top: 20px">
 
-                <div class="card-body">
+            <style>
+                .breadcrumb {
+                    background: white;
+                }
+            </style>
+
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb shadow-sm" style="border: 1px solid rgba(0,0,0,.125);">
+                    <li class="breadcrumb-item">Danh sách bình luận bị báo cáo</li>
+                </ol>
+            </nav>
+            <div class="card">
+                <div class="card-header shadow-sm" style="background: white; font-size: 18px">
                     @if (session('status'))
                     <div class="alert  alert-dismissable alert-success" role="alert">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -46,10 +55,10 @@
                         <tbody>
                          
                         @foreach($comment as $key => $com)
-                            <tr>
-                                <th scope="row">{{$key}}</th>                              
-                                <th scope="row">{{$com->comment->user->name}}</th>  
-                                <th scope="row">{{$com->comment->truyen->tentruyen}}</th>     
+                            <tr> 
+                                <th scope="row">{{$key+1}}</th>                              
+                                <th scope="row"><a href="{{url('user-profile/'.$com->comment->user->id)}}">{{$com->comment->user->name}}</a></th>  
+                                <th scope="row"><a href="{{url('xem-truyen/'.$com->comment->truyen->slug_truyen)}}">{{$com->comment->truyen->tentruyen}}</a></th>     
                                 <th scope="row">{{$com->comment->body}}</th> 
                                 <th scope="row">Không có</th>    
                                 <td>
