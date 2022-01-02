@@ -1,17 +1,21 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\User;
+use App\Models\Follow;
+use App\Models\Rating;
+use App\Models\Truyen;
 use App\Models\Chapter;
+use App\Models\History;
+use App\Models\Theloai;
 use App\Models\ChapterTranh;
 use Illuminate\Http\Request;
 use App\Models\DanhmucTruyen;
-use App\Models\Theloai;
-use App\Models\Truyen;
-use App\Models\Rating;
-use App\Models\User;
+use App\Models\Favorite;
+use Illuminate\Support\Facades\Auth;
 use CyrildeWit\EloquentViewable\Contracts\Views;
-use Symfony\Polyfill\Intl\Idn\Info;
-
+//index 
 class IndexController extends Controller
 {
     // public function __construct()
@@ -29,12 +33,22 @@ class IndexController extends Controller
         $truyentopngay = Truyen::where('truyen_noibat',1)->take(3)->get();
         $truyentoptuan = Truyen::where('truyen_noibat',2)->take(3)->get();
         $truyentopthang = Truyen::where('truyen_noibat',3)->take(3)->get();
-      
+
+
+
+        if(Auth::user()){
+            $user = auth()->user();
+            $history = History::orderBy('id', 'DESC')->where('user_id',$user->id)->first();
+            $truyenyeuthich = Favorite::with('favoriteable')->where('user_id', $user->id)->get();
+        }else{
+            $history = History::orderBy('id', 'DESC')->first();
+            $truyenyeuthich = Favorite::with('favoriteable')->get();
+        }
         $chuong_moinhat = Truyen::with('thuocnhieutheloaitruyen')->orderBy('updated_at','DESC')->where('kichhoat', 0)->paginate(10);
        
         $dexuat_truyen = Truyen::orderBy('id','DESC')->where('kichhoat',0)->take(3)->get();
         $dexuat_theloai = Theloai::orderBy('id','DESC')->take(4)->get();
-        return view('pages.home')->with(compact('danhmuc','truyen','theloai','slide_truyen','dexuat_truyen','dexuat_theloai','chuong_moinhat', 'truyentopngay','truyentoptuan','truyentopthang','notification'));
+        return view('pages.home')->with(compact('truyenyeuthich','history','danhmuc','truyen','theloai','slide_truyen','dexuat_truyen','dexuat_theloai','chuong_moinhat', 'truyentopngay','truyentoptuan','truyentopthang','notification'));
         
     }
     public function danhmuc($slug){
@@ -93,21 +107,29 @@ class IndexController extends Controller
         
 
 
-        $chapter = Chapter::with('truyen')->orderBy('id','ASC')->where('truyen_id',$truyen->id)->get();
-        $chapter_dau = Chapter::with('truyen')->orderBy('id','ASC')->where('truyen_id',$truyen->id)->first();
-        $chapter_cuoi = Chapter::with('truyen')->orderBy('id','DESC')->where('truyen_id',$truyen->id)->first();
+        $chapter = Chapter::with('truyen')->orderBy('id','ASC')->where('kichhoat', 0)->where('truyen_id',$truyen->id)->get();
+        $chapter_dau = Chapter::with('truyen')->orderBy('id','ASC')->where('kichhoat', 0)->where('truyen_id',$truyen->id)->first();
+        $chapter_cuoi = Chapter::with('truyen')->orderBy('id','DESC')->where('kichhoat', 0)->where('truyen_id',$truyen->id)->first();
 
 
         
-        $chaptertranh = ChapterTranh::with('truyen')->orderBy('id','DESC')->where('truyen_id',$truyen->id)->get();
-        $chaptertranh_dau = ChapterTranh::with('truyen')->orderBy('id','ASC')->where('truyen_id',$truyen->id)->first();
-        $chaptertranh_cuoi = ChapterTranh::with('truyen')->orderBy('id','DESC')->where('truyen_id',$truyen->id)->first();
+        $chaptertranh = ChapterTranh::with('truyen')->orderBy('id','DESC')->where('kichhoat', 0)->where('truyen_id',$truyen->id)->get();
+        $chaptertranh_dau = ChapterTranh::with('truyen')->orderBy('id','ASC')->where('kichhoat', 0)->where('truyen_id',$truyen->id)->first();
+        $chaptertranh_cuoi = ChapterTranh::with('truyen')->orderBy('id','DESC')->where('kichhoat', 0)->where('truyen_id',$truyen->id)->first();
 
         $cungdanhmuc = Truyen::with('danhmuctruyen','theloai')->where('danhmuc_id',$truyen->danhmuctruyen->id)->whereNotIn('id',[$truyen->id])->take(3)->get();
         
         $rating = Rating::where('truyen_id', $truyen->id)->avg('rating');
         $rating = round($rating);
-        return view('pages.truyen')->with(compact('danhmuc','truyen','chapter','cungdanhmuc','chapter_dau','chapter_cuoi','theloai','dexuat_truyen','dexuat_theloai','chaptertranh','chaptertranh_dau','chaptertranh_cuoi','rating','notification'));
+
+        if(Auth::user()){
+            $user = auth()->user();     
+            $truyenyeuthich = Favorite::with('favoriteable')->where('user_id', $user->id)->get();
+        }else{      
+            $truyenyeuthich = Favorite::with('favoriteable')->get();
+        }
+
+        return view('pages.truyen')->with(compact('truyenyeuthich','danhmuc','truyen','chapter','cungdanhmuc','chapter_dau','chapter_cuoi','theloai','dexuat_truyen','dexuat_theloai','chaptertranh','chaptertranh_dau','chaptertranh_cuoi','rating','notification'));
 
     }
 
@@ -127,17 +149,24 @@ class IndexController extends Controller
         $truyen_breadcrumb = Truyen::with('danhmuctruyen','theloai')->where('id',$truyen->truyen_id)->first();
         //endbreadcrumb
 
-        $max_id = Chapter::where('truyen_id',$truyen->truyen_id)->orderBy('id','DESC')->first();
-        $min_id = Chapter::where('truyen_id',$truyen->truyen_id)->orderBy('id','ASC')->first();
+        if(Auth::user()){
+            $user = auth()->user();
+            $history = History::orderBy('id', 'DESC')->where('user_id',$user->id)->first();
+        }else{
+            $history = History::orderBy('id', 'DESC')->first();
+        }
+
+        $max_id = Chapter::where('truyen_id',$truyen->truyen_id)->where('kichhoat', 0)->orderBy('id','DESC')->first();
+        $min_id = Chapter::where('truyen_id',$truyen->truyen_id)->where('kichhoat', 0)->orderBy('id','ASC')->first();
         
-        $min_chapter = Chapter::where('truyen_id',$truyen->truyen_id)->orderBy('id','ASC')->min('slug_chapter');
-        $max_chapter = Chapter::where('truyen_id',$truyen->truyen_id)->orderBy('id','DESC')->max('slug_chapter');
+        $min_chapter = Chapter::where('truyen_id',$truyen->truyen_id)->where('kichhoat', 0)->orderBy('id','ASC')->min('slug_chapter');
+        $max_chapter = Chapter::where('truyen_id',$truyen->truyen_id)->where('kichhoat', 0)->orderBy('id','DESC')->max('slug_chapter');
 
-        $all_chapter = Chapter::with('truyen')->orderBy('id','ASC')->where('truyen_id',$truyen->truyen_id)->get();
+        $all_chapter = Chapter::with('truyen')->orderBy('id','ASC')->where('kichhoat', 0)->where('truyen_id',$truyen->truyen_id)->get();
 
-        $next_chapter = Chapter::where('truyen_id',$truyen->truyen_id)->where('id','>',$chapter->id)->min('slug_chapter');
-        $previous_chapter = Chapter::where('truyen_id',$truyen->truyen_id)->where('id','<',$chapter->id)->max('slug_chapter');
-        return view('pages.chapter')->with(compact('danhmuc','chapter', 'all_chapter','next_chapter','previous_chapter','max_id','min_id','min_chapter','max_chapter','theloai','truyen_breadcrumb','dexuat_truyen','dexuat_theloai','notification'));
+        $next_chapter = Chapter::where('truyen_id',$truyen->truyen_id)->where('kichhoat', 0)->where('id','>',$chapter->id)->min('slug_chapter');
+        $previous_chapter = Chapter::where('truyen_id',$truyen->truyen_id)->where('kichhoat', 0)->where('id','<',$chapter->id)->max('slug_chapter');
+        return view('pages.chapter')->with(compact('history','danhmuc','chapter', 'all_chapter','next_chapter','previous_chapter','max_id','min_id','min_chapter','max_chapter','theloai','truyen_breadcrumb','dexuat_truyen','dexuat_theloai','notification'));
     }
     public function xemchaptertranh($slug_truyen, $slug){
         $theloai = Theloai::orderBy('id','DESC')->get();
@@ -208,6 +237,7 @@ class IndexController extends Controller
         }
     }
 
+    //Trang làm
     public function tag($tag){
        
         $notification = Chapter::with('truyen')->orderBy('created_at','DESC')->take(6)->get();
@@ -244,8 +274,8 @@ class IndexController extends Controller
         $dexuat_theloai = Theloai::orderBy('id','DESC')->take(4)->get();
         $notification = Chapter::with('truyen')->orderBy('created_at','DESC')->take(6)->get();
         $user = User::find($id);      
-        $list_truyen = Truyen::with('thuocnhieuuser')->orderBy('id','DESC')->where('user_id',$user->id)->get();
-      
+        $list_truyen = Truyen::with('thuocnhieuuser')->orderBy('id','DESC')->where('user_id',$user->id)->get(); 
+        
         return view('pages.userProfile')->with(compact('danhmuc','theloai','dexuat_truyen','dexuat_theloai','user','list_truyen','notification'));
     }
 
@@ -257,9 +287,31 @@ class IndexController extends Controller
         $notification = Chapter::with('truyen')->orderBy('created_at','DESC')->take(6)->get();
         $user = User::find(auth()->user()->id);          
       
+        $truyen = Truyen::with('danhmuctruyen','thuocnhieutheloaitruyen')->where('kichhoat',0)->first();
+        views($truyen)->record();
         return view('pages.userSettings')->with(compact('danhmuc','theloai','dexuat_truyen','dexuat_theloai','user','notification'));
     }
 
+
+    public function listFavorite($id){
+        $theloai = Theloai::orderBy('id','DESC')->get();
+        $danhmuc = DanhmucTruyen::orderBy('id','ASC')->get(); 
+        
+        $notification = Chapter::with('truyen')->orderBy('created_at','DESC')->take(6)->get();
+
+        $dexuat_truyen = Truyen::orderBy('id','DESC')->where('kichhoat',0)->take(3)->get();
+        $dexuat_theloai = Theloai::orderBy('id','DESC')->take(4)->get();   
+        
+        $user = User::find(auth()->user()->id);   
+        if(Auth::user()){
+            $user = auth()->user();     
+            $truyenyeuthich = Favorite::with('favoriteable')->where('user_id', $user->id)->get();
+        }else{      
+            $truyenyeuthich = Favorite::with('favoriteable')->get();
+        }
+      
+        return view('pages.yeuthich')->with(compact('truyenyeuthich','danhmuc','theloai','dexuat_truyen','dexuat_theloai','notification'));
+    }
 
     function load_data($slug, Request $request)
     {
