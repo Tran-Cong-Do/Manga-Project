@@ -85,6 +85,8 @@ class FavoriteController extends Controller
         return redirect()->back()->with('status','Xóa thành công');
     }
 
+
+//request favorite
     public function ajaxRequest(Request $request){
 
 		$truyen = Truyen::find($request->id);
