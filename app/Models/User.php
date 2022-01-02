@@ -9,10 +9,16 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Panoscape\History\HasOperations;
-class User extends Authenticatable
+use Cog\Contracts\Ban\Bannable as BannableContract;
+use Cog\Laravel\Ban\Traits\Bannable;
+use Overtrue\LaravelFollow\Followable;
+use Overtrue\LaravelFavorite\Traits\Favoriter;
+class User extends Authenticatable implements BannableContract
 {
-    use HasApiTokens, HasFactory, Notifiable, HasOperations;
+    use HasApiTokens, HasFactory, Notifiable, HasOperations, Bannable, Followable;
     use HasRoles;
+    use Favoriter;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -24,6 +30,9 @@ class User extends Authenticatable
         'password',
         'image',
         'intro',
+        'phone_number',
+        'sex',
+        'location'
     ];
 
     /**
@@ -59,4 +68,5 @@ class User extends Authenticatable
     {
         return $this->hasMany(Truyen::class,'App\Models\Truyen', 'user_id','truyen_id');
     }
+ 
 }

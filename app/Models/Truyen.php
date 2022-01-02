@@ -6,11 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use CyrildeWit\EloquentViewable\InteractsWithViews;
 use CyrildeWit\EloquentViewable\Contracts\Viewable;
+use Overtrue\LaravelFavorite\Traits\Favoriteable;
 
 class Truyen extends Model implements Viewable
 {
     use HasFactory;
     use InteractsWithViews;
+    use Favoriteable;
     protected $dates = [
 	    'created_at',
 	    'updated_at'
@@ -20,7 +22,7 @@ class Truyen extends Model implements Viewable
         'tentruyen', 'tomtat', 'kichhoat', 'slug_truyen',
         'hinhanh', 'danhmuc_id', 'tacgia', 'tinhtrang',
         'thongbao', 'theloai_id', 'truyen_noibat', 
-        'created_at','updated_at', 'user_id','tukhoa'
+        'created_at','updated_at', 'user_id', 'tukhoa'
     ];
     protected $primaryKey = 'id';
     protected $table = 'truyen';
@@ -30,6 +32,10 @@ class Truyen extends Model implements Viewable
     }
     public function chapter(){
         return $this->hasMany('App\Models\Chapter','truyen_id','id');
+    }
+
+    public function chaptertranh(){
+        return $this->hasMany('App\Models\ChapterTranh','truyen_id','id');
     }
 
     public function theloai(){
@@ -42,6 +48,11 @@ class Truyen extends Model implements Viewable
     public function thuocnhieuuser() 
     {
         return $this->belongsTo(User::class,'user_id','id');
+    }
+
+    public function history() 
+    {
+        return $this->belongsTo(History::class,'truyen_id','id');
     }
     public function comments()
     {
