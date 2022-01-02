@@ -1,18 +1,24 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\DanhmucController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\IndexController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TruyenController;
 use App\Http\Controllers\ChapterController;
-use App\Http\Controllers\ChapterTranhController;
-use App\Http\Controllers\IndexController;
-use App\Http\Controllers\TheloaiController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\ReportCommentController;
+use App\Http\Controllers\DanhmucController;
+use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\TheloaiController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\ReportErrorController;
+use App\Http\Controllers\ReportTranhController;
+use App\Http\Controllers\ChapterTranhController;
+use App\Http\Controllers\ReportCommentController;
 use App\Http\Controllers\ReportErrorTranhController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,7 +34,10 @@ use App\Http\Controllers\ReportErrorTranhController;
 //     return view('layout');
 // });
 
+
 Route::get('/', [IndexController::class, 'home']);
+
+
 
 
 Route::get('/danh-muc/{slug}', [IndexController::class, 'danhmuc']);
@@ -43,6 +52,9 @@ Route::get('/user-settings/{id}', [IndexController::class, 'userSettings']);
 
 Route::post('/tim-kiem', [IndexController::class, 'timkiem']);
 Route::post('/timkiem-ajax', [IndexController::class, 'timkiem_ajax']);
+Route::get('/tag/{tag}', [IndexController::class, 'tag']);
+
+Route::get('/truyen-yeu-thich/{id}',[IndexController::class, 'listFavorite'])->name("list.Favorite");
 
 Route::post('/tim-kiem-admin', [TruyenController::class, 'timkiem']);
 Route::post('/timkiem-ajax-admin', [TruyenController::class, 'timkiem_ajax']);
@@ -54,10 +66,10 @@ Route::post('/timkiemuser-ajax-admin', [UserController::class, 'timkiem_ajax']);
 // Route::post('/loadmore/load_data/{slug}', [IndexController::class, 'load_data'])->name('loadmore.load_data');
 // Route::post('/load-comment', [TruyenController::class, 'load_comment']);
 
-Auth::routes();
 
 Auth::routes();
 
+// Auth::routes();
 Route::group(['middleware' => ['role:admin']], function() {
     Route::get('/phan-vai-tro/{id}', [UserController::class, 'phanvaitro']);
     Route::post('/insert_roles/{id}', [UserController::class, 'insert_roles']);
@@ -107,9 +119,20 @@ Route::delete('/delete-report-error/{id}', [ReportErrorController::class, 'destr
 Route::post('/report-error-tranh', [ReportErrorTranhController::class, 'store'])->name("reporterrortranh.store");
 Route::get('/manage-report-error-tranh', [ReportErrorTranhController::class, 'index'])->name("reporterrortranh.index");
 Route::delete('/delete-report-error-tranh/{id}', [ReportErrorTranhController::class, 'destroy'])->name("reporterrortranh.destroy");
+//report truyen
+Route::post('/report-story',[ReportController::class,'store'])->name("report.store");
+Route::get('/report-err', [ReportController::class,'index'])->name("report.index");
+Route::delete('/delete-report-err/{id}', [ReportController::class, 'destroy'])->name("report.destroy");
+ 
+//report truyen tranh
+Route::post('/report-tranh-story',[ReportTranhController::class,'store'])->name("reporttranh.store");
+Route::get('/report-tranh-err', [ReportTranhController::class,'index'])->name("reporttranh.index");
+Route::get('/delete-tranh-err/{id}', [ReportTranhController::class,'destroy'])->name("reporttranh.destroy");
+
 //Truyện
 Route::post('/truyennoibat', [TruyenController::class, 'truyennoibat']);
-Route::get('truyen/kytu/{kytu}', [TruyenController::class,'kytu']);
+Route::get('/truyen/kytu/{kytu}', [TruyenController::class, 'kytu']);
+
 //Rating
 Route::post('/insert-rating', [TruyenController::class, 'insert_rating']);
 
@@ -119,5 +142,25 @@ Route::post('/upload-image-user/{id}', [UserController::class, 'update'])->name(
 //cài đặt user
 Route::post('/setting-user/{id}', [UserController::class, 'settings'])->name("user.settings");
 Route::post('/change-password/{id}', [UserController::class, 'change_password'])->name("user.change_password");
-Route::get('user/kytu/{kytu}', [UserController::class, 'kytuUser']);
 
+//Xóa all
+Route::delete('/myproductsDeleteAll', [DanhmucController::class, 'deleteAll']);
+Route::delete('/mystoriesDeleteAll', [TruyenController::class, 'deleteAll']);
+Route::delete('/mychapterDeleteAll', [ChapterController::class, 'deleteAll']);
+Route::delete('/mychaptertranhDeleteAll', [ChapterTranhController::class, 'deleteAll']);
+Route::delete('/mygenreDeleteAll', [TheloaiController::class, 'deleteAll']);
+
+//Block user
+Route::get('userUserRevoke/{id}',[UserController::class, 'revoke']);
+Route::post('/userBan',[UserController::class, 'ban']);
+
+//Follow user
+Route::post('follow', [UserController::class,'follwUserRequest'])->name('follow');
+
+//History
+Route::post('/history',[HistoryController::class, 'store'])->name('history.store');
+Route::delete('/history/{tentruyen}',[HistoryController::class, 'destroy'])->name('history.delete');
+
+//Favorite
+Route::post('ajaxRequest', [FavoriteController::class,'ajaxRequest'])->name('ajaxRequest');
+Route::delete('/favorite/{id}',[FavoriteController::class, 'destroy'])->name('favorite.delete');
