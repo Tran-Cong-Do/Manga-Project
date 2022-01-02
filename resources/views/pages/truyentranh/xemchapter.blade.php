@@ -12,7 +12,18 @@
   .breadcrumb{
     background: none;
   }
+  .isDisable {
+    pointer-events: none;
+    opacity: 0.5;
+  }
 </style>
+<!-- Lấy data -->
+<input type="hidden" value="{{$chaptertranh->tieude}}" class="chapter_current">
+<input type="hidden" value="{{$chaptertranh->truyen->tentruyen}}" class="tentruyen">
+<input type="hidden" value="{{\URL::current()}}" class="url">
+<input type="hidden" value="{{$chaptertranh->truyen->tacgia}}" class="tacgia">
+<input type="hidden" value="{{$chaptertranh->truyen->hinhanh}}" class="hinhanh">
+<!-- Lấy data -->
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb shadow-sm">
     <li class="breadcrumb-item"><a href="{{url('/')}}">Trang chủ</a></li>
@@ -22,7 +33,7 @@
   </ol>
 </nav>
 	<div class="">
-		<p style="font-size: 145%; text-shadow: 2px 2px #D3D3D3;" class="font-weight-bold text-center m-0">{{$chaptertranh->truyen->tentruyen}}</p>
+		<p style="font-size: 145%;" class="font-weight-bold text-center m-0">{{$chaptertranh->truyen->tentruyen}}</p>
 		<p class="text-center">{{$chaptertranh->tieude}} 
 
 		@if($chaptertranh->updated_at == null )
@@ -32,9 +43,9 @@
         @endif
 		
 		</p>
-		@if($chaptertranh->tomtat)
+		<!-- @if($chaptertranh->tomtat)
 		<p class="text-center m-0">{{$chaptertranh->tomtat}} </p>
-		@endif
+		@endif -->
 	</div>
 	<hr>
 	<div class="menu_view w-100">
@@ -42,10 +53,15 @@
 			<a href="{{url('/')}}"><div class="btn pt-1 pb-1 font-weight-bold" style="background: #ff631c;  border-radius: 8px; font-size: 120%; color: white"><i class="fas fa-home"></i></div></a>
 			<div class="btn pt-1 pb-1  ml-2 font-weight-bold" style="background: #ff631c;  border-radius: 8px; font-size: 120%; color: white"><i class="fa fa-plus" aria-hidden="true"></i> Theo dõi</div>
 			
-
+			@if(Auth()->user())
 			<button type="button" class="btn pt-1 pb-1  ml-2 font-weight-bold"  style="border: 1px solid #ff631c;  border-radius: 8px; font-size: 120%; color: #ff631c" data-toggle="modal" data-target="#exampleModal">
 			Báo lỗi
 			</button>
+			@else
+			<button type="button" class="btn pt-1 pb-1  ml-2 font-weight-bold  isDisable" style="background: #ff631c; font-size: 120%;  border-radius: 8px; color: white">
+			Báo lỗi
+			</button>
+			@endif
 			<!-- Modal -->
 			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-top: 150px">
 			<div class="modal-dialog" role="document">
@@ -89,8 +105,55 @@
 
 
 
-
-			<div class="btn pt-1 pb-1  ml-2 font-weight-bold" style="background: #ff631c;  border-radius: 8px; font-size: 120%; color: white"><i class="far fa-flag mr-1"></i>Báo cáo</div>
+  			
+			@if(Auth()->user())
+			<div class="btn pt-1 pb-1  ml-2 font-weight-bold" style="background: #ff631c;  border-radius: 8px; font-size: 120%; color: white" data-toggle="modal" data-target="#exampleModal2"><i class="far fa-flag mr-1"></i>Báo cáo</div>
+			@else 
+			<div class="btn pt-1 pb-1  ml-2 font-weight-bold isDisable" style="background: #ff631c; font-size: 120%;  border-radius: 8px; color: white"><i class="far fa-flag mr-1"></i>Báo cáo</div>
+			@endif
+			
+			<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-top: 150px">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel" style="color: black">Báo cáo truyện</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form method="POST" action="{{ route('reporttranh.store') }}">
+							@csrf
+						<input type="hidden" name ="chaptertranh_id" value="{{$chaptertranh->id}}">
+							<div class="form-group">
+								<label for="exampleInputEmail1" style="color: black">Chọn loại báo cáo</label>
+									<select name="chonloi" class="custom-select" aria-label="Default select example">							
+										<option value="0">Tranh có cảnh nhạy cảm</option>
+										<option value="1">Truyện tranh vi phạm bản quyền</option>
+										<option value="2">Tranh có cảnh nóng</option>
+										<option value="3">Tranh bạo hành</option>
+										<option value="4">Báo cáo khác</option>
+									</select>
+							</div>	
+	
+							<div class="form-group">
+								<input name="noidung" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Mô tả chi tiết báo cáo được giải quyết nhanh hơn!">
+							</div>
+	
+						
+					</div>
+					
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+						<button type="submit" class="btn btn-primary">Gửi đi</button>
+					</div>
+					</form>	
+					</div>
+				</div>
+				</div>
+			
+			
+			
 			<a href="{{url('xem-truyen/'.$truyen_breadcrumb->slug_truyen)}}"><div class="btn pt-1 pb-1 ml-2 font-weight-bold" style="background: #ff631c;  border-radius: 8px; font-size: 120%; color: white"><i class="fas fa-bars"></i></div></a>
 		 </div>
 	</div>
@@ -307,3 +370,4 @@
 }
 </style>
 @endsection
+{{-- by tuyen --}}

@@ -141,6 +141,7 @@ class UserController extends Controller
     {
         //
     }
+    //by tuyen
 
     /**
      * Store a newly created resource in storage.
