@@ -1,3 +1,5 @@
+{{-- quốc commit home.blade --}}
+
 @extends('../layout')
 @section('slide')
 @include('pages.slide')
