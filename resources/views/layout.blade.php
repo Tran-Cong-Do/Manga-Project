@@ -1,3 +1,5 @@
+{{-- quốc commit layout --}}
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -5,22 +7,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="{{csrf_token()}}">
-  </meta>
 
   <title>Đọc truyện Online</title>
-
   <link href="{{ asset('css/owl.carousel.min.css') }}" rel="stylesheet">
   <link href="{{ asset('css/owl.theme.default.min.css') }}" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" rel="stylesheet">
-
-
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-
   <!-- Styles -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
@@ -304,7 +300,7 @@ left: auto;
           @endif
           @if (Route::has('register'))
           <li class="nav-item">
-            <a class="btn" style="background:  #ff631c; color: white; border-radius: 8px" href="{{ route('register') }}">{{ __('Đăng kí') }}</a>
+            <a class="btn" style="background:  #ff631c; color: white; border-radius: 8px" href="{{ route('register') }}">{{ __('Đăng ký') }}</a>
           </li>
           @endif
           @else
@@ -1069,6 +1065,4 @@ left: auto;
       </div>
     </div>
 </footer>
-
-
 </html>
